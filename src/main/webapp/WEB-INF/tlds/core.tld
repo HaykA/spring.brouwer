@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version='2.1' xmlns='http://java.sun.com/xml/ns/javaee'
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xsi:schemaLocation='http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd'>
+   <tlib-version>1.0</tlib-version>
+   <short-name>br</short-name>
+   <uri>http://brouwers.be/core/tags</uri>
+   <tag-file>
+      <name>head</name>
+      <path>/WEB-INF/tags/core/head.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>header</name>
+      <path>/WEB-INF/tags/core/header.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>gi</name>
+      <path>/WEB-INF/tags/core/gi.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>fa</name>
+      <path>/WEB-INF/tags/core/fa.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>brouwer-form</name>
+      <path>/WEB-INF/tags/core/brouwer-form.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>form-error</name>
+      <path>/WEB-INF/tags/core/form-error.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>form-label</name>
+      <path>/WEB-INF/tags/core/form-label.tag</path>
+   </tag-file>
+</taglib>
