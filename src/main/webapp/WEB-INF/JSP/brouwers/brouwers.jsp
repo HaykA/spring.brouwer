@@ -12,10 +12,38 @@
     <br:header activeId="0"></br:header>
     <div class="centralized pull-down">
       <h1><i class="fa fa-glass"></i> <spring:message code="AlleBrouwers"/></h1>
+      <pre>
+      Total pages: ${page.totalPages}
+      Page size: ${page.size}
+      Page number: ${page.number}
+      Sorted by: ${param.sort}
+      </pre>
       <table class="table table-hover table-bordered">
         <thead>
           <tr class="active">
-            <td class="text-center text-middle"><strong><spring:message code="Nummer"/></strong></td>
+            <td class="text-center text-middle">
+              <c:url value="/brouwers" var="brouwersUrl">
+              <c:choose>
+                <c:when test="${empty param.sort or param.sort eq 'id,desc'}">
+                  <c:param name="sort">id</c:param>
+                </c:when>
+                <c:otherwise>
+                  <c:param name="sort">id,desc</c:param>
+                </c:otherwise>
+              </c:choose>
+              </c:url>
+              <c:if test="${not empty param.sort}">
+                <c:choose>
+                  <c:when test="${param.sort eq 'id'}">
+                    <c:set var="paramSortIcon" value="triangle-top"/>
+                  </c:when>
+                  <c:when test="${param.sort eq 'id,desc'}">
+                    <c:set var="paramSortIcon" value="triangle-bottom"/>
+                  </c:when>
+                </c:choose>
+              </c:if>
+              <a href="${brouwersUrl}"><strong><spring:message code="Nummer"/>
+                <c:if test="${not empty paramSortIcon}">&nbsp;<br:gi icon="${paramSortIcon}"/></c:if> </strong></a></td>
             <td class="text-left text-middle"><strong><spring:message code="Naam"/></strong></td>
             <td class="text-left text-middle"><strong><spring:message code="Straat"/></strong></td>
             <td class="text-center text-middle"><strong><spring:message code="Huisnummer"/></strong></td>

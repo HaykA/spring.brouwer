@@ -55,6 +55,7 @@ public class CreateControllerBeans extends WebMvcConfigurerAdapter {
 		return factory;
 	}
 	
+	@Override
 	public Validator getValidator() {
 		return new SpringValidatorAdapter(validatorFactory().getValidator());
 		}

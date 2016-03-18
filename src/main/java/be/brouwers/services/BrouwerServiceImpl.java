@@ -48,8 +48,8 @@ public class BrouwerServiceImpl implements BrouwerService {
 	}
 
 	@Override
-	public List<Brouwer> findByBeginnaam(String beginnaam) {
-		return brouwerDAO.findByNaamStartingWithOrderByNaam(beginnaam);
+	public Page<Brouwer> findByBeginnaam(String beginnaam, Pageable pageable) {
+		return brouwerDAO.findByNaamStartingWithOrderByNaam(beginnaam, pageable);
 	}
 	
 	@Override

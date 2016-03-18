@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -38,11 +39,6 @@ class BrouwerController {
 	private final BrouwerService brouwerService;
 	private final char[] alfabet = new char['Z' - 'A' + 1];
 	
-	@InitBinder("brouwer")
-	void initBinderBrouwer(WebDataBinder binder) {
-		binder.initDirectFieldAccess();
-	}
-
 	@Autowired
 	BrouwerController(BrouwerService brouwerService) {
 		this.brouwerService = brouwerService;
@@ -51,25 +47,36 @@ class BrouwerController {
 		}
 	}
 	
+	@InitBinder("brouwer")
+	void initBinderBrouwer(WebDataBinder binder) {
+		binder.initDirectFieldAccess();
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	ModelAndView brouwers(Pageable pageable) {
+		if (pageable.getPageSize() == 3) {
+			PageRequest pr = new PageRequest(pageable.getPageNumber(), 6, pageable.getSort());
+			pageable = new PageRequest(pageable.getPageNumber(), 6, pr.getSort());
+		}
+		System.out.println(pageable.getClass().getName());
 		return new ModelAndView(BROUWERS_VIEW, "page",
 				brouwerService.findAll(pageable));
 	}
 	
 	@RequestMapping(path = "beginnaam", method = RequestMethod.GET)
-	ModelAndView findByBeginnaam() {
+	ModelAndView findByBeginnaam(Pageable pageable) {
 		return new ModelAndView(BEGINNAAM_VIEW).addObject(new BeginnaamForm());
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params="beginnaam")
 	ModelAndView findByBeginnaam(@Valid BeginnaamForm beginnaamForm,
-			BindingResult result) {
+			Pageable pageable, BindingResult result) {
 		if (result.hasErrors()) {
 			return new ModelAndView(BEGINNAAM_VIEW).addObject("errBeginnaamEmpty", true);
 		} else {
-			return new ModelAndView(BEGINNAAM_VIEW, "brouwers",
-					brouwerService.findByBeginnaam(beginnaamForm.getBeginnaam()));
+			return new ModelAndView(BEGINNAAM_VIEW, "page",
+					brouwerService.findByBeginnaam(
+							beginnaamForm.getBeginnaam(), pageable));
 		}
 	}
 	
@@ -88,9 +95,9 @@ class BrouwerController {
 	}
 	
 	@RequestMapping(path = "opalfabet/{x}", method = RequestMethod.GET)
-	ModelAndView opAlfabet(@PathVariable String x) {
+	ModelAndView opAlfabet(@PathVariable String x, Pageable pageable) {
 		return new ModelAndView(ALFABET_VIEW, "alfabet", alfabet)
-				.addObject("brouwers", brouwerService.findByBeginnaam(x))
+				.addObject("brouwers", brouwerService.findByBeginnaam(x, pageable))
 				.addObject("gekozenLetter", x.charAt(0));
 	}
 	

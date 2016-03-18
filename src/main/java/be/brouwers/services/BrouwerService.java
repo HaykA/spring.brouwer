@@ -12,7 +12,7 @@ public interface BrouwerService {
 	void create(Brouwer brouwer);
 	List<Brouwer> findAll();
 	Page<Brouwer> findAll(Pageable pageable);
-	List<Brouwer> findByBeginnaam(String beginnaam);
+	Page<Brouwer> findByBeginnaam(String beginnaam, Pageable pageable);
 	void delete(long id);
 	void update(Brouwer brouwer);
 }
