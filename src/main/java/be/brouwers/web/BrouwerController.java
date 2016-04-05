@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,7 +21,7 @@ import be.brouwers.entities.Brouwer;
 import be.brouwers.services.BrouwerService;
 
 @Controller
-@RequestMapping("/brouwers")
+@RequestMapping(path = "/brouwers", produces = MediaType.TEXT_HTML_VALUE)
 class BrouwerController {
 
 	private static final String BROUWERS_VIEW = "/brouwers/brouwers";
@@ -97,8 +98,8 @@ class BrouwerController {
 	@RequestMapping(path = "opalfabet/{x}", method = RequestMethod.GET)
 	ModelAndView opAlfabet(@PathVariable String x, Pageable pageable) {
 		return new ModelAndView(ALFABET_VIEW, "alfabet", alfabet)
-				.addObject("brouwers", brouwerService.findByBeginnaam(x, pageable))
-				.addObject("gekozenLetter", x.charAt(0));
+				.addObject("page", brouwerService.findByBeginnaam(x, pageable))
+				.addObject("gekozenLetter", x.toLowerCase().charAt(0));
 	}
 	
 	@RequestMapping(path = "opalfabet", method = RequestMethod.GET)

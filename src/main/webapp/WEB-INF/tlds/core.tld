@@ -34,4 +34,12 @@
       <name>form-label</name>
       <path>/WEB-INF/tags/core/form-label.tag</path>
    </tag-file>
+   <tag-file>
+      <name>sort-url</name>
+      <path>/WEB-INF/tags/core/sort-url.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>pagebar</name>
+      <path>/WEB-INF/tags/core/pagebar.tag</path>
+   </tag-file>
 </taglib>

@@ -4,6 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="br" uri="http://brouwers.be/core/tags"%>
 <!DOCTYPE html>
+
 <html>
   <head>
     <br:head title="Brouwers"/>
@@ -12,56 +13,67 @@
     <br:header activeId="0"></br:header>
     <div class="centralized pull-down">
       <h1><i class="fa fa-glass"></i> <spring:message code="AlleBrouwers"/></h1>
+
       <pre>
       Total pages: ${page.totalPages}
       Page size: ${page.size}
       Page number: ${page.number}
       Sorted by: ${param.sort}
       </pre>
+      
+      <div class="well">
+        <br:pagebar urlPattern="/brouwers"/>
+      </div>
+      
       <table class="table table-hover table-bordered">
         <thead>
           <tr class="active">
+          
             <td class="text-center text-middle">
-              <c:url value="/brouwers" var="brouwersUrl">
-              <c:choose>
-                <c:when test="${empty param.sort or param.sort eq 'id,desc'}">
-                  <c:param name="sort">id</c:param>
-                </c:when>
-                <c:otherwise>
-                  <c:param name="sort">id,desc</c:param>
-                </c:otherwise>
-              </c:choose>
-              </c:url>
-              <c:if test="${not empty param.sort}">
-                <c:choose>
-                  <c:when test="${param.sort eq 'id'}">
-                    <c:set var="paramSortIcon" value="triangle-top"/>
-                  </c:when>
-                  <c:when test="${param.sort eq 'id,desc'}">
-                    <c:set var="paramSortIcon" value="triangle-bottom"/>
-                  </c:when>
-                </c:choose>
-              </c:if>
-              <a href="${brouwersUrl}"><strong><spring:message code="Nummer"/>
-                <c:if test="${not empty paramSortIcon}">&nbsp;<br:gi icon="${paramSortIcon}"/></c:if> </strong></a></td>
-            <td class="text-left text-middle"><strong><spring:message code="Naam"/></strong></td>
-            <td class="text-left text-middle"><strong><spring:message code="Straat"/></strong></td>
-            <td class="text-center text-middle"><strong><spring:message code="Huisnummer"/></strong></td>
-            <td class="text-center text-middle"><strong><spring:message code="Postcode"/></strong></td>
-            <td class="text-left text-middle"><strong><spring:message code="Gemeente"/></strong></td>
-            <td class="text-right text-middle"><strong><spring:message code="Omzet"/></strong></td>
+              <br:sort-url urlPattern="/brouwers" sortBy="id" name='Nummer'/>
+            </td>
+            
+            <td class="text-left text-middle">
+              <br:sort-url urlPattern="/brouwers" sortBy="naam" name='Naam'/>
+            </td>
+            
+            <td class="text-left text-middle">
+              <br:sort-url urlPattern="/brouwers" sortBy="adres.straat" name='Straat'/>
+            </td>
+            
+            <td class="text-center text-middle">
+              <br:sort-url urlPattern="/brouwers" sortBy="adres.huisnr" name='Huisnummer'/>
+            </td>
+            
+            <td class="text-center text-middle">
+              <br:sort-url urlPattern="/brouwers" sortBy="adres.postcode" name='Postcode'/>
+            </td>
+            
+            <td class="text-left text-middle">
+            <br:sort-url urlPattern="/brouwers" sortBy="adres.gemeente" name='Gemeente'/>
+            </td>
+            
+            <td class="text-right text-middle">
+              <br:sort-url urlPattern="/brouwers" sortBy="omzet" name='Omzet'/>
+            </td>
+            
             <td></td>
           </tr>
         </thead>
         <tbody>
           <c:forEach var="brouwer" items="${page.content}">
+          <spring:url value="/weather/{gemeente}/temperature" var="weerUrl">
+            <spring:param name="gemeente" value="${brouwer.adres.gemeente}"/>
+          </spring:url>
           <tr>
             <td class="text-center text-middle">${brouwer.id}</td>
             <td class="text-left text-middle">${brouwer.naam}</td>
             <td class="text-left text-middle">${brouwer.adres.straat}</td>
             <td class="text-center text-middle">${brouwer.adres.huisnr}</td>
             <td class="text-center text-middle">${brouwer.adres.postcode}</td>
-            <td class="text-left text-middle">${brouwer.adres.gemeente}</td>
+            <td class="text-left text-middle">
+              <a href="${weerUrl}" class="btn btn-success"
+                  data-toggle="tooltip" title="<spring:message code='HetWeer'/>"><br:gi icon="cloud"/></a> &nbsp;${brouwer.adres.gemeente}</td>
             <td class="text-right text-middle">
               <fmt:formatNumber value="${brouwer.omzet}"/> EUR</td>
             <td class="text-left text-middle">
@@ -75,7 +87,8 @@
                 <button type="submit" class="btn btn-danger"
                   data-toggle="tooltip" title="<spring:message code='Verwijderen'/>">
                   <br:gi icon="trash"/></button>
-                <a href="${wijzigUrl}" class="btn btn-primary"><br:gi icon="edit"/></a>
+                <a href="${wijzigUrl}" class="btn btn-primary"
+                  data-toggle="tooltip" title="<spring:message code='Wijzigen'/>"><br:gi icon="edit"/></a>
               </form>
               
             </td>

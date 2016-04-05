@@ -53,6 +53,11 @@ public class BrouwerServiceImpl implements BrouwerService {
 	}
 	
 	@Override
+	public List<Brouwer> findByBeginnaam(String beginnaam) {
+		return brouwerDAO.findByNaamStartingWithOrderByNaam(beginnaam);
+	}
+	
+	@Override
 	@ModifyingTransactionalServiceMethod
 	public void delete(long id) {
 		brouwerDAO.delete(id);

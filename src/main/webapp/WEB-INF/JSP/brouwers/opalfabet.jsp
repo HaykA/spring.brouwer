@@ -32,9 +32,9 @@
       </nav>
       <c:if test="${not empty gekozenLetter}">
       <c:choose>
-      <c:when test="${not empty brouwers}">
+      <c:when test="${not empty page and not empty page.content}">
       <ul class="list-group">
-        <c:forEach var="brouwer" items="${brouwers}">
+        <c:forEach var="brouwer" items="${page.content}">
         <li class="list-group-item">${brouwer.naam} (${brouwer.adres.gemeente})</li>
         </c:forEach>
       </ul>

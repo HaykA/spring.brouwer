@@ -9,8 +9,8 @@
   </head>
   <body>
     <br:header activeId="0"></br:header>
-    <div class="centralized">
-      <h1><spring:message code="Toevoegen"/></h1>
+    <div class="centralized pull-down">
+      <h1><br:fa icon="asterisk"/>&nbsp;<spring:message code="Toevoegen"/></h1>
       <spring:url value="/brouwers/toevoegen" var="url"/>
       <br:brouwer-form url="${url}"/>
     </div>

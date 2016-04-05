@@ -13,6 +13,7 @@ public interface BrouwerService {
 	List<Brouwer> findAll();
 	Page<Brouwer> findAll(Pageable pageable);
 	Page<Brouwer> findByBeginnaam(String beginnaam, Pageable pageable);
+	List<Brouwer> findByBeginnaam(String beginnaam);
 	void delete(long id);
 	void update(Brouwer brouwer);
 }
