@@ -3,13 +3,13 @@ package be.brouwers.web;
 import javax.servlet.Filter;
 
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import be.brouwers.dao.CreateDAOBeans;
 import be.brouwers.datasource.CreateDataSourceBean;
 import be.brouwers.restclients.CreateRestClientBeans;
 import be.brouwers.restservices.CreateRestControllerBeans;
+import be.brouwers.security.CreateSecurityFilter;
 import be.brouwers.services.CreateServiceBeans;
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -18,7 +18,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class<?>[] { CreateDataSourceBean.class,
 			CreateDAOBeans.class, CreateServiceBeans.class,
-			CreateRestClientBeans.class };
+			CreateRestClientBeans.class, CreateSecurityFilter.class };
 	}
 
 	@Override
@@ -34,8 +34,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 	
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[] { new CharacterEncodingFilter("UTF-8"),
-				new OpenEntityManagerInViewFilter() };
+		return new Filter[] { new OpenEntityManagerInViewFilter() };
 	}
 
 }

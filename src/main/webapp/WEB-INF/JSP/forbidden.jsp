@@ -6,12 +6,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <br:head title='Welkom'/>
+    <title>Forbidden</title>
   </head>
   <body>
-    <br:header activeId="0"/>
-    <div class="centralized pull-down">
-      <h1><spring:message code="${groet}" /></h1>
-    </div>
+      <h1>Forbidden</h1>
   </body>
 </html>

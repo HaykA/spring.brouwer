@@ -16,6 +16,10 @@ body {
 }
 
 
+.v-spaced {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 
 table {
 	background-color: #fff;
