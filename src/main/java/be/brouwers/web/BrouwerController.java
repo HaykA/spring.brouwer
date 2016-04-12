@@ -1,7 +1,9 @@
 package be.brouwers.web;
 
+import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itextpdf.text.DocumentException;
+
 import be.brouwers.entities.Brouwer;
 import be.brouwers.services.BrouwerService;
+import be.brouwers.text.pdf.BrouwerPDFFactory;
 
 @Controller
 @RequestMapping(path = "/brouwers", produces = MediaType.TEXT_HTML_VALUE)
@@ -59,7 +64,21 @@ class BrouwerController {
 			PageRequest pr = new PageRequest(pageable.getPageNumber(), 6, pageable.getSort());
 			pageable = new PageRequest(pageable.getPageNumber(), 6, pr.getSort());
 		}
-		System.out.println(pageable.getClass().getName());
+		
+		return new ModelAndView(BROUWERS_VIEW, "page",
+				brouwerService.findAll(pageable));
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	ModelAndView brouwers(Pageable pageable, HttpServletRequest request) {
+		try {
+			BrouwerPDFFactory.createPDF(brouwerService.findAll(),
+					request.getServletContext().getRealPath("/pdf"));
+		} catch (FileNotFoundException | DocumentException e) {
+			System.out.println("\n\n");
+			e.printStackTrace();
+			System.out.println("\n\n");
+		}
 		return new ModelAndView(BROUWERS_VIEW, "page",
 				brouwerService.findAll(pageable));
 	}

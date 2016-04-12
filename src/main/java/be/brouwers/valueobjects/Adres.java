@@ -55,12 +55,28 @@ public class Adres implements Serializable {
 	public String getHuisnr() {
 		return huisnr;
 	}
-
+	
 	public Integer getPostcode() {
 		return postcode;
 	}
 
 	public String getGemeente() {
 		return gemeente;
+	}
+	
+	public String getStraatEnHuisnr() {
+		return straat + " " + huisnr;
+	}
+	
+	public String getPostcodeEnGemeente() {
+		return postcode + " " + gemeente;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(straat).append(" ").append(huisnr).append("\n")
+			.append(postcode).append(" ").append(gemeente);
+		return sb.toString();
 	}
 }

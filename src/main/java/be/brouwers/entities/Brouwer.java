@@ -66,5 +66,11 @@ public class Brouwer implements Serializable {
 		return adres;
 	}
 	
-	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(naam).append("\n")
+			.append(adres).append("\n")
+			.append(omzet).append("\n");
+		return sb.toString();
+	}
 }
